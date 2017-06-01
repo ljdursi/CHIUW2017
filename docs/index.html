@@ -336,8 +336,10 @@ layout: false
     - Spark
     - Dask
     - Distributed TensorFlow
+    - MPI
     - Coarray Fortran
     - Julia
+    - Rust, Swift
     - Genomics tools
 
 - Where Chapel is, and what nearby territories look fertile
@@ -653,7 +655,7 @@ class: center, middle, inverse
 ### Overview
 ]
 .right-column[
-<img src="assets/img/RLogo.png" width=10% style="float: left;"></img>
+<img src="assets/img/Rlogo.png" width=10% style="float: left;"></img>
 The R foundation considers R &ldquo;an environment within which statistical techniques are implemented.&rdquo;
 
 * A programming language built around statistical analysis and (primarily) interactive use.
@@ -941,9 +943,63 @@ Used for database, machine learning (linear algebra, graph, tree methods), _etc.
 
 ### Overview
 
-### RDDs
+### Performance
+]
+.right-column[
+<img src="assets/img/logistic-regression.png" width=33% style="float: right;"></img>
+Being in-memory was a huge performance win over Hadoop MapReduce
+for multiple passes through data.
 
-### Execution graphs
+Spark immediately began supplanting MapReduce for complex calculations.
+
+.center[**Lesson 6: Performance is crucial!**]
+]
+--
+.right-column-cont[
+.center[**...To a point**.]
+
+In 2012, either would have been much faster in MPI or a number of HPC frameworks.
+* No multicore
+* Generic sockets for communications
+* No GPUs
+* JVM: Garbage collection jitter, pausses
+
+But development time, lack of fault tolerance, no integration into ecosystem (HDFS, HBase..)
+mean that not even considered.
+
+Don't have to be faster than _everything_.
+]
+---
+.left-column[
+## Spark
+
+### Overview
+
+### Performance
+]
+.right-column[
+Project Titanium (2015) was an extensive rewriting of core Spark for performance.
+* Get rid of JVM memory management, handle it themselves (FORTRAN77 workspace arrays!)
+* Vastly improved cache performance
+* Code generation (more later)
+
+In 2016, built-in GPU support.
+
+.center[**Lesson 8: There will _always_ be pending performance improvements.  They're important, but not show-stoppers**.]
+]
+--
+.right-column-cont[
+.center[**Lesson 9: Big Data frameworks are learning HPC lessons faster than HPC stacks are learning Big Data lessons**.]
+]
+---
+.left-column[
+## Spark
+
+### Overview
+
+### Performance
+
+### RDDs
 ]
 .right-column[
 Operations on Spark RDDs can be:
@@ -962,6 +1018,8 @@ layout: false
 ## Spark
 
 ### Overview
+
+### Performance
 
 ### RDDs
 ]
@@ -983,39 +1041,9 @@ Can easily use join, _etc._ to bring all values associated with a key together:
 
 ### Overview
 
-### RDDs
-
-### Execution graphs
-]
-.right-column[
-Delayed computation + view of entire algorithm allows optimizations over the entire computation graph.
-
-So for instance here, nothing starts happening in earnest until the `plot_data()` (Spark notebook 1)
-
-```python
-    # Main loop: For each iteration,
-    #  - calculate terms in the next step
-    #  - and sum
-    for step in range(nsteps):
-        data = data.flatMap(stencil) \
-                    .reduceByKey(lambda x, y:x+y)
-            
-    # Plot final results in black
-    plot_data(data, usecolor='black')
-```
-
-Knowledge of lineage of every shard of data also means recomputation is straightforward in case
-of node failure
-]
----
-.left-column[
-## Spark
-
-### Overview
+### Performance
 
 ### RDDs
-
-### Execution graphs
 
 ### Dataframes
 ]
@@ -1035,9 +1063,9 @@ Can use SQL-like queries to perform calculations.  But this allows bringing the 
 
 ### Overview
 
-### RDDs
+### Performance
 
-### Execution graphs
+### RDDs
 
 ### Dataframes
 
@@ -1057,9 +1085,9 @@ Nodes passes messages to their neighbours along edges.
 
 ### Overview
 
-### RDDs
+### Performance
 
-### Execution graphs
+### RDDs
 
 ### Dataframes
 
@@ -1101,13 +1129,71 @@ aren't some completely alien and irrelevant forms of analyses.
 
 ### Overview
 
-### RDDs
+### Performance
 
-### Execution graphs
+### RDDs
 
 ### Dataframes
 
 ### Graphs
+]
+.right-column[
+
+All of these features - key-value RDDs, Dataframes, (now Datasets), and graphs, are built upon the basic RDD plus the fundamental transformations.
+
+.center[**Lesson 4b: The right abstractions &mdash; decompositions with enough primitive operations to act on them &mdash; can be enough to build an ecosystem on**]
+]
+---
+.left-column[
+## Spark
+
+### Overview
+
+### Performance
+
+### RDDs
+
+### Dataframes
+
+### Graphs
+
+### Execution graphs
+]
+.right-column[
+Delayed computation + view of entire algorithm allows optimizations over the entire computation graph.
+
+So for instance here, nothing starts happening in earnest until the `plot_data()` (Spark notebook 1)
+
+```python
+    # Main loop: For each iteration,
+    #  - calculate terms in the next step
+    #  - and sum
+    for step in range(nsteps):
+        data = data.flatMap(stencil) \
+                    .reduceByKey(lambda x, y:x+y)
+            
+    # Plot final results in black
+    plot_data(data, usecolor='black')
+```
+
+Knowledge of lineage of every shard of data also means recomputation is straightforward in case
+of node failure
+]
+---
+.left-column[
+## Spark
+
+### Overview
+
+### Performance
+
+### RDDs
+
+### Dataframes
+
+### Graphs
+
+### Execution graphs
 
 ### Adoption
 ]
@@ -1130,13 +1216,15 @@ Adoption has been rapid and substantial
 
 ### Overview
 
-### RDDs
+### Performance
 
-### Execution graphs
+### RDDs
 
 ### Dataframes
 
 ### Graphs
+
+### Execution graphs
 
 ### Adoption
 ]
@@ -1154,13 +1242,15 @@ Adoption has been enormous
 
 ### Overview
 
-### RDDs
+### Performance
 
-### Execution graphs
+### RDDs
 
 ### Dataframes
 
 ### Graphs
+
+### Execution graphs
 
 ### Adoption
 
