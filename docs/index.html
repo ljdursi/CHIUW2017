@@ -336,11 +336,9 @@ layout: false
     - Spark
     - Dask
     - Distributed TensorFlow
-    - MPI
     - Coarray Fortran
     - Julia
     - Rust, Swift
-    - Genomics tools
 
 - Where Chapel is, and what nearby territories look fertile
 ]
@@ -896,6 +894,37 @@ Data.table, is fully mutable
 .center[**Lesson 5: Mutability is essential for technical computing performance**.]
 ]
 ---
+.left-column[
+## R
+
+### Overview
+
+### Initial History
+
+### Dataframes
+
+### HPC R
+
+### Datatables
+
+### Pros/Cons
+]
+.right-column[
+
+Focused entirely on statistical computing (pro or con)
+
+**Cons**
+
+* Hit-or-miss support for parallel computations
+* Purely interpreted; pure R is slow
+
+**Pros**
+
+* Widespread adoption
+* Enormous package support (many written in C++)
+* Close to dominant on the desktop (with Python/Pandas nipping at heels)
+]
+---
 layout: false
 class: center, middle, inverse
 
@@ -1262,7 +1291,7 @@ Adoption has been enormous
 
 * JVM Based (Scala) means C interoperability always fraught.
 * Not much support for high-performance interconnects (although that's coming from third parties - [HiBD group at OSU](http://hibd.cse.ohio-state.edu))
-* Very little explicit support for multicore yet, which leaves some performance on the ground.
+* Very little explicit support for multicore yet, which leaves performance on the ground.
 * Doesn't scale _down_ very well; very heavyweight
 
 **Pros**
@@ -1301,6 +1330,12 @@ Dask is a python parallel computing package
 * Very new - 2015
 * As small as possible
 * Scales down very nicely
+* Adoption extremely fast
+
+.center[**Lesson 10: Scale _down_ is important for adoption, particularly for scientists**]
+]
+--
+.right-column-cont[
 * Works very nicely with NumPy, Pandas, Scikit-Learn
 * Is definitely nibbling into HPC &ldquo;market share&rdquo;
     * For traditional numerical computing on few nodes
@@ -1309,6 +1344,8 @@ Dask is a python parallel computing package
 
 Used for very general data analysis (linear algebra, trees, tables, stats, graphs...) and
 machine learning
+
+.center[**Lesson 11: Library support vital**]
 ]
 ---
 .left-column[
@@ -1394,6 +1431,8 @@ mtx = da.from_array(file['/M'], chunks=(1000, 1000))
 u, s, v = da.linalg.svd(mtx)
 u.compute()
 ```
+
+.center[**Lesson 12: With NVMe, out-of-core is coming back, and some packages are already thiking about it**]
 ]
 ---
 .left-column[
@@ -1463,8 +1502,8 @@ will be instantly famiilar to HPC community members
 
 * Performance: Aimed at analysis tasks (big, more loosely coupled) rather than simulation
     * Scheduler+TCP: 200&mu;s per-task overhead, orders of magnitude larger than an MPI message
-    * Not a replacement in general for large-scale tightly-coupled computing
-    * Python
+    * Single scheduler processes
+    * Not intended as replacement in general for large-scale tightly-coupled computing
 
 **Pros**
 
@@ -1487,6 +1526,7 @@ count: false
 ### Overview
 ]
 .right-column[
+<img src="assets/img/tensors_flowing.gif" width=33% style="float: right;"></img>
 TensorFlow is an open-source dataflow for numerical computation with dataflow graphs, where the data is always in the form of 
 &ldquo;tensors&rdquo; (n-d arrays).
 
@@ -1496,8 +1536,6 @@ From Google, who uses it for machine learning.
 
 Lots of BLAS operations and function evaluations but also general
 numpy-type operations, can use GPUs or CPUs.
-
-.center[<img src="assets/img/tensors_flowing.gif" width=40%></img>]
 ]
 ---
 .left-column[
@@ -1689,26 +1727,6 @@ data transport is very definitely not MPI.
 ### Higher-Level Abstractions
 ]
 .right-column[
-MPI &mdash; with collective operations and MPI-IO &mdash; has taught us well-chosen higher-level abstractions provide:
-
-- User: **both**:
-    - higher performance (performance portability, autotuning)
-    - higher productivity (less code, fewer errors)
-- Toolbuilder: Clear, interesting targets for:
-    - Algorithmic development (research) 
-    - Implementation tuning (development)
-
-Better deal for both.
-
-.center[<img src="assets/img/mpiio-opts.png" width=75%></img>]
-]
----
-.left-column[
-## Common Themes
-
-### Higher-Level Abstractions
-]
-.right-column[
 - Spark: Resilient distributed data set (table), upon which:
     - Graphs
     - Dataframes/Datasets
@@ -1720,9 +1738,6 @@ Better deal for both.
 - TensorFlow:
     - Data flow
     - Certain kinds of &ldquo;Tensor&rdquo; operations
-- Chapel:
-    - Domains
-    - Locales
 ]
 ---
 .left-column[
@@ -1757,12 +1772,28 @@ Already starting to attract attention in HPC, e.g. [PaRSEC at ICL](http://icl.ut
 There has been a large amount of growth of these parallel programming environments for data crunching
 in the past few years
 
-None of the big data models described here are as old as 4 years of age as public projects.
+None of the big data models described here are as old as 5 years of age as public projects.
 
 For all of them, performance is a selling point for their audience.
 
 None use MPI.
 ]
+---
+class: center, middle, inverse
+count: false
+## Coarray Fortran: http://tensorflow.org
+---
+class: center, middle, inverse
+count: false
+## Julia: http://julialang.org
+---
+class: center, middle, inverse
+count: false
+## Rust: 
+---
+class: center, middle, inverse
+count: false
+## Spark: 
 ---
 ## Things are currently harder than they have to be
 
