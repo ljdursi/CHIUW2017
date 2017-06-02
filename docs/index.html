@@ -176,6 +176,10 @@ layout: false
     - ASCI White
 
 - FORTRAN, MPI, Oct-tree regular adaptive mesh
+
+- Joined HPC centre after postdoc
+
+- Worked with researchers on wide variety of problems
 ]
 
 ???
@@ -188,24 +192,92 @@ I was doing pretty pretty standard HPC stuff - high speed reactive
 flows (explicit methods), adaptive grid, FORTRAN with some C and
 python, that sort of thing.
 
---
-.right-column-cont[
-- Joined HPC centre after postdoc
-
-- Worked with researchers on wide variety of problems
-
-- Got interested in genomics:
-    - Large computing needs
-    - Very interesting algorithmic challenges
-]
-???
 After doing a postdoc in Toronto, I moved into the HPC Centre
 there, working with them and Compute Canada - a little like 
 PRACE or XSEDE - and working with a lot of different researchers
-doing a lot of different problems.  Before too long, I started
-becoming interested in genomics - partly because it was the new
-frontier, with fascinating and deep algorithmic challenges, but
-also required very large-scale computing to accomplish its promise.
+doing a lot of different problems.  
+---
+.left-column[
+  ## Who Am I?
+
+  ### Old HPC Hand...
+
+  ### Living in Exciting Times...
+]
+.right-column[
+Started my career (c1995-2005) when large scale scientific computing was:
+
+* ~20 years of stability
+* Bunch of x86, MPI, ethernet or infiniband
+* No one outside of academia was much doing big number/data crunching
+* Pretty stable set of problems
+
+Now found myself thrust into the most exciting time in scientific computing
+maybe ever.
+]
+---
+.left-column[
+  ## Who Am I?
+
+  ### Old HPC Hand...
+
+  ### Living in Exciting Times..
+]
+.right-column[
+## New Communities Make things Exciting!
+<img src="assets/img/new-communities.png" style="float: right;" width=50%>
+
+* Internet-scale companies (Yahoo!, Google)
+  * Very large-scale image processing
+  * Machine learning:
+    * Sparse linear algebra
+    * k-d trees
+    * Calculations on unstructured meshes (graphs)
+    * Numerical optimization
+* Genomics
+  * Lots of data
+  * Lots of analysis challenges
+    * Large graphs for assembly, analysis
+    * Large tables for statistics
+* Building new frameworks
+
+]
+---
+.left-column[
+  ## Who Am I?
+
+  ### Old HPC Hand...
+
+  ### Living in Exciting Times...
+]
+.right-column[
+## New Hardware Makes things Exciting!
+<img src="assets/img/fpga.png" style="float: right;" width=50%>
+
+* Now:
+  * Large numbers of cores per socket
+  * GPUs/Phis
+* Next few years:
+  * FPGA (Intel: Broadwell + Arria 10, shipping 2017)
+  * Non-volatile Memory (external memory/out-of-core algorithms)
+]
+---
+.left-column[
+  ## Who Am I?
+
+  ### Old HPC Hand...
+
+  ### Living in Exciting Times...
+]
+.right-column[
+## Richer Scientific Problems Make things Exciting!
+
+* New science demands: cutting edge models are more complex.  An Astro example:
+    * 80s - gravity only N-body, galaxy-scale
+    * 90s - N-body, cosmological
+    * 00s - Hydrodynamics, cosmological
+    * 10s - Hydrodynamics + rad transport + cosmological
+]    
 ---
 name: my-background-2
 layout: false
@@ -214,10 +286,17 @@ layout: false
 
   ### Old HPC Hand...
 
+  ### Living in Exciting Times...
+
   ### Gone Into Genomics
 ]
 .right-column[
-Started looking into Genomics in ~2013, made move in 2014
+Started looking into Genomics in ~2013:
+ - Large computing needs
+ - Very interesting algorithmic challenges
+ - HPCer to the rescue, right?
+
+Made move in 2014
 
 - Ontario Institute for Cancer Research
 
@@ -226,6 +305,11 @@ Started looking into Genomics in ~2013, made move in 2014
     - MPI-based 
 ]
 ???
+Before too long, I started
+becoming interested in genomics - partly because it was the new
+frontier, with fascinating and deep algorithmic challenges, but
+also required very large-scale computing to accomplish its promise.
+
 I began working in genomics with Jared Simpson, who amongst other
 accomplishments was the author of ABySS, one of the very early
 large-scale de novo genome assemblers from what we now call short
@@ -251,6 +335,8 @@ layout: false
 
   ### Old HPC Hand...
 
+  ### Living in Exciting Times...
+
   ### Gone Into Genomics
 ]
 .right-column[
@@ -264,61 +350,6 @@ using Apache Spark.
 In the meantime, one of the de-facto standards for genome analysis, GATK, 
 has just announced that version 4 will support distributed cluster computing &mdash; 
 using Apache Spark.
----
-## Exciting Time to be Doing Large-Scale Scientific Computing
-
-Large scale scientific computing, 1995-2005 (ish):
-
-* ~20 years of stability
-* Bunch of x86, MPI, ethernet or infiniband
-* No one outside of academia was much doing big number/data crunching
-
----
-## New Communities Make things Exciting!
-<img src="assets/img/new-communities.png" style="float: right;" width=50%>
-
-* Internet-scale companies (Yahoo!, Google)
-* Very large-scale image processing
-* Machine learning:
-  * Sparse linear algebra
-  * k-d trees
-  * Calculations on unstructured meshes (graphs)
-  * Numerical optimization
-* Building new frameworks
-
-
----
-## New Hardware Makes things Exciting!
-<img src="assets/img/fpga.png" style="float: right;" width=50%>
-
-* Now:
-  * Large numbers of cores per socket
-  * GPUs/Phis
-* Next few years:
-  * FPGA (Intel: Broadwell + Arria 10, shipping 2017)
-  * Non-volatile Memory (external memory/out-of-core algorithms)
-
-
----
-## Richer Scientific Problems Make things Exciting!
-
-* New science demands: cutting edge models are more complex.  An Astro example:
-    * 80s - gravity only N-body, galaxy-scale
-    * 90s - N-body, cosmological
-    * 00s - Hydrodynamics, cosmological
-    * 10s - Hydrodynamics + rad transport + cosmological
-    
----
-## But All Of This Added Complexity is Challenging
-
-* Just keeping up with what's available is hard
-
-* More and more computing power and frameworks becoming available, but amount of time in a day isn't
-
-* What's a scientist to do?
-
-.center[<img src="assets/img/gradstudents-per-cpu.png" width=75%></img>]
-
 ---
 layout: false
 .left-column[
@@ -354,7 +385,7 @@ are tackling these problems.
 
 Once we've sketched out the map, I want to describe the place I see
 Chapel as occupying now &mdash; and the attractive neighbouring vacant
-territories that we can occupy if we want.
+territories that it can occupy if it wants.
 ---
 .left-column[
   ## Outline
@@ -512,11 +543,6 @@ I tend to place Chapel as a redoubt on the outskirts of traditional HPC terrain,
   - Modern language affordances
 
   - Making it easier to tackle scale, more complex problems
-    
----
-layout: false
-class: center, middle, inverse
-## The Problems Big Data Frameworks Aim To Solve
 ---
 .left-column[
 ## Big Data Problems
