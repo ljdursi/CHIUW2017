@@ -356,6 +356,86 @@ Once we've sketched out the map, I want to describe the place I see
 Chapel as occupying now &mdash; and the attractive neighbouring vacant
 territories that we can occupy if we want.
 ---
+.left-column[
+  ## Outline
+  
+  ### With problems in mind:
+
+  ### Grid PDES
+]
+.right-column[
+My perspective is based on the sorts of problems I've worked on.
+
+Will have those in mind when looking at languages and techniques.
+
+Started with high-speed reactive fluid flows, either fixed grid (structured or unstructured)
+or block-structured adaptive:
+
+.center[<img src="assets/img/amr.png" width=90%></img>]
+]
+---
+.left-column[
+  ## Outline
+  
+  ### With problems in mind:
+
+  ### Grid PDEs
+
+  ### Substring operations 
+]
+.right-column[
+(Much) more recently, working with genomics sequence data. 
+
+Assembly:
+- Have small fragments of sequence, must generate whole 
+- Graph methods (de Bruijn or overlap graph)
+- Find maximal unambiguous paths through the graph
+
+<table width=65%>
+<tbody>
+<tr><td><img src="assets/img/debruijn-graph.jpg" width=90%></img></td></tr>
+<tr><td>Figure from <a href="http://www.nature.com/nrg/journal/v14/n5/full/nrg3433.html">Nature Review Genetics</a></td></tr>
+</tbody>
+
+Or may have an assembled graph genome and try to find best match for
+given observed subsequence
+
+Or just count observed subsequences
+
+]
+---
+.left-column[
+  ## Outline
+  
+  ### With problems in mind:
+
+  ### Grid PDEs
+
+  ### Substring operations 
+
+  ### Large statistical analyses
+]
+.right-column[
+Or just large biostatistical analyses:
+
+Closest to my current day job (distributed analysis of private genomics data sets)
+
+Imagine RNA sequence expression data:
+- 100m fragments of sequence (imperfect sampling)
+- Assigned to particular RNA transcripts
+- Find out if transcripts are differentially expressed between case and condition
+
+Now do that for multiple tissue types, large population...
+
+And start correlating with other information (DNA variants, clinical data, phenotypic data,...)
+
+<table width=45%>
+<tbody>
+<tr><td><img src="assets/img/rnaseq.png" width=90%></img></td></tr>
+<tr><td>Figure from <a href="http://www.nature.com/nbt/journal/v32/n9/full/nbt.2931.html">Nature</a></td></tr>
+</tbody>
+]
+---
 layout: false
 class: center, middle, inverse
 ## The Lay Of The Land: 2002, 2007, and 2017
@@ -631,16 +711,11 @@ https://spark.apache.org/docs/1.2.1/graphx-programming-guide.html
 .right-column[
 
 The problems big-data practitioners face are either:
-- The same as in HPC
-- The same as HPCish large-scale scientific data analysis
+- The same as in traditional HPC
+- The same as new scientific computing fields
 - Or what data analysis/HPC will be facing towards exascale
     - Less regular/structured
     - More dynamic
-
-So it's worth examining the variety of tools that community has built,
-- To see if they can benefit our community
-- To see what makes them tick
-- To see if we can improve them
 ]
 ---
 layout: false
@@ -664,6 +739,8 @@ The R foundation considers R &ldquo;an environment within which statistical tech
 
 * Lovely newish development/interactive use environment, [RStudio](https://www.rstudio.com).
 
+* _Huge_ in biostatistics: [Bioconductor](https://bioconductor.org)
+
 .center[<img src="assets/img/rstudio-projects_new.png" width=40%></img>]
 ]
 ---
@@ -681,7 +758,7 @@ R's popularity was _not_ a given.
 
 * Referees can always say "I don't trust this new program, what does good old SPSS/SAS say?  (Fear may be more important than actual fact).
 
-* Free, easily extensible, high-quality --- took ages to catch on, but it did.
+* Free, easily extensible, high-quality &mdash; took ages to catch on, but it did.
 
 .center[
 <table width=45%>
@@ -836,7 +913,7 @@ foreach.
 
 Also has several excellent packages that make use of parallelism:
 * Caret (various data mining algorithms)
-* BiocParallel (for BioConductor packages)
+* BiocParallel (for Bioconductor packages)
 
 But these represent a _lot_ of work by people; hard to get from one side to the other.
 
@@ -862,36 +939,9 @@ to parallelize your algorithms from very basic pieces
 * But scientists don't want to write parallel code
 * They just want to solve their problems!
 
-.center[**Lesson 4: Decompositions aren't enough -- need rich, composable, parallel tools**.]
+.center[**Lesson 4: Decompositions aren't enough &mdash; need rich, composable, parallel tools**.]
 
 .center[<img src="assets/img/chasm_of_despair.png" width=70%></img>]
-]
----
-.left-column[
-## R
-
-### Overview
-
-### Initial History
-
-### Dataframes
-
-### HPC R
-
-### Datatables
-]
-.right-column[
-(*) R was usually written in a functional programming style
-- Return results, don't mutate arguments
-
-Dataframes reflect that:
-- nontrivial changes require copying and returning the copy
-- Slow, memory pressure.
-
-Data.table, is fully mutable
-- analysis routines typically see significant speedup, reduced memory
-
-.center[**Lesson 5: Mutability is essential for technical computing performance**.]
 ]
 ---
 .left-column[
@@ -1007,7 +1057,7 @@ Don't have to be faster than _everything_.
 ### Performance
 ]
 .right-column[
-Project Titanium (2015) was an extensive rewriting of core Spark for performance.
+Project Tungsten (2015) was an extensive rewriting of core Spark for performance.
 * Get rid of JVM memory management, handle it themselves (FORTRAN77 workspace arrays!)
 * Vastly improved cache performance
 * Code generation (more later)
@@ -1224,21 +1274,16 @@ of node failure
 
 ### Execution graphs
 
-### Adoption
+### Adoption in Science
 ]
 .right-column[
-Adoption has been rapid and substantial
-- Biggest open-source big-data platform
-- Huge private-sector adoption, which has been hard for HPC
-- Selected in industry because of performance and ease of use
-.center[<img src="assets/img/spark-business-uptake.png" width=75%></img>]
-.center[http://insidebigdata.com/2015/11/17/why-is-apache-spark-so-hot/]
+Adoption has been enormous _broadly_:
+
+.center[<img src="assets/img/spark-interest.png" width=75%></img>]
+.center[Google Search]
+.center[<img src="assets/img/stack-overflow-qs.png" width=75%></img>]
+.center[Questions on Stack Overflow]
 ]
-???
-Adoption has been rapid and substantial
-- Biggest open-source big-data platform
-- Huge private-sector adoption, which has been hard for HPC
-- Selected in industry because of performance and ease of use
 ---
 .left-column[
 ## Spark
@@ -1255,15 +1300,26 @@ Adoption has been rapid and substantial
 
 ### Execution graphs
 
-### Adoption
+### Adoption in Science
 ]
 .right-column[
-Adoption has been enormous
-- Huge interest by programmers
-.center[<img src="assets/img/spark-interest.png" width=75%></img>]
-.center[Google Search]
-.center[<img src="assets/img/stack-overflow-qs.png" width=75%></img>]
-.center[Questions on Stack Overflow]
+But comparatively little uptake in science yet - even though it seems like it would be right at home in large-scale genomics:
+- Graph problems
+- Large statistical analyses
+
+(GATK is a bit of a special case - more research infrastructure than a research tool per se)
+]
+--
+.right-column-cont[
+My claim is that its heavyweight nature is an awkward fit for scientist patterns of work
+- Noodle around on laptop
+- Develop methods, gain confidence on smaller data sets
+- Scale up over time
+
+Who spends months developing a method, tries it for the first time on 100TB of data, only to discover the
+approach is doomed to failure?
+
+.center[**Lesson 10: For science, scale _down_ may be as important as scale up**]
 ]
 ---
 .left-column[
@@ -1291,7 +1347,7 @@ Adoption has been enormous
 
 * JVM Based (Scala) means C interoperability always fraught.
 * Not much support for high-performance interconnects (although that's coming from third parties - [HiBD group at OSU](http://hibd.cse.ohio-state.edu))
-* Very little explicit support for multicore yet, which leaves performance on the ground.
+* Very little explicit support for multicore yet, which leaves much performance on the ground.
 * Doesn't scale _down_ very well; very heavyweight
 
 **Pros**
@@ -1331,8 +1387,6 @@ Dask is a python parallel computing package
 * As small as possible
 * Scales down very nicely
 * Adoption extremely fast
-
-.center[**Lesson 10: Scale _down_ is important for adoption, particularly for scientists**]
 ]
 --
 .right-column-cont[
@@ -1432,7 +1486,7 @@ u, s, v = da.linalg.svd(mtx)
 u.compute()
 ```
 
-.center[**Lesson 12: With NVMe, out-of-core is coming back, and some packages are already thiking about it**]
+.center[**Lesson 12: With NVMe, out-of-core is coming back, and some packages are already thinking about it**]
 ]
 ---
 .left-column[
@@ -1498,10 +1552,34 @@ will be instantly famiilar to HPC community members
 ### Pros/Cons
 ]
 .right-column[
+Not going to be a killer platform for solving PDEs just yet
+- I claim this is because you can't hint strongly enough to scheduler yet about data placement
+
+Could easily be of interest in very near term for large-scale biostatistical data analysis (scikit-learn).
+
+Out-of-core analysis makes scale down even more interesting.
+
+Nothing really there for graph problems, but it's not impossible in the medium term.
+]
+---
+.left-column[
+## Dask
+
+### Overview
+
+### Task Graphs
+
+### Dask Arrays
+
+### Diagnostics
+
+### Pros/Cons
+]
+.right-column[
 **Cons**
 
 * Performance: Aimed at analysis tasks (big, more loosely coupled) rather than simulation
-    * Scheduler+TCP: 200&mu;s per-task overhead, orders of magnitude larger than an MPI message
+    * Scheduler+TCP: 200&nbsp;&mu;s per-task overhead, orders of magnitude larger than an MPI message
     * Single scheduler processes
     * Not intended as replacement in general for large-scale tightly-coupled computing
 
@@ -1510,8 +1588,8 @@ will be instantly famiilar to HPC community members
 * Trivial to install, start using
 * Outstanding for prototyping parallel algorithms
 * Out-of-core support baked in
-* With Numba+Numpy, very reasonable single-core performance 
-* Automatically overlaps communication with computation: 200&mu;s might not be so bad for some methods
+* With Numba+Numpy, reasonable single-core performance (~factor of 2 of Chapel)
+* Automatically overlaps communication with computation: 200&nbsp;&mu;s might not be so bad for some methods
 * Scheduler, communications all in pure python right now, rapidly evolving:
     * **Much** scope for speedup
 ]
@@ -1532,10 +1610,16 @@ TensorFlow is an open-source dataflow for numerical computation with dataflow gr
 
 Very new: Released November 2015
 
-From Google, who uses it for machine learning.
+From Google, who uses it for deep learning and othe rmachine learning tasks.
 
 Lots of BLAS operations and function evaluations but also general
 numpy-type operations, can use GPUs or CPUs.
+
+Deep learning: largely (but not exclusively) about breaking data (training set) into large chunks,
+performing calculations, and updating each other with updates from those calculations synchronously
+or asynchronously.
+
+.center[**Lesson 13: Parts of &ldquo;big data&rdquo; are getting very close to traditional HPC problems**.]
 ]
 ---
 .left-column[
@@ -1702,13 +1786,14 @@ array calculations
 **Cons**
 
 * N-d arrays only means limited support for, e.g., unstructured meshes, hash tables (bioinformatics)
-* Distribution of work remains limited and manual (but is expected to improve - Google uses this)
+* Distribution of work remains limited and manual 
 
 **Pros**
 
 * C++ - interfacing is much simpler than Spark
 * Fast
 * GPU, CPU support, not unreasonable to expect Phi support shortly
+* Can make use of infrastructure for synchronous, asynchronous updates between data-parallel tasks
 * Great for data processing, image processing, or computations on n-d arrays
 ]
 ???
@@ -1759,50 +1844,188 @@ Already starting to attract attention in HPC, e.g. [PaRSEC at ICL](http://icl.ut
 <img src="assets/img/parsec-toolchain.png" width=45%></img> <img src="assets/img/parsec-QR.png" width=40%></img>
 ]
 ---
-.left-column[
-## Common Themes
-
-### Higher-Level Abstractions
-
-### Data Flow
-
-### Data Layers
-]
-.right-column[
-There has been a large amount of growth of these parallel programming environments for data crunching
-in the past few years
-
-None of the big data models described here are as old as 5 years of age as public projects.
-
-For all of them, performance is a selling point for their audience.
-
-None use MPI.
-]
----
-class: center, middle, inverse
-count: false
-## Coarray Fortran: http://tensorflow.org
----
 class: center, middle, inverse
 count: false
 ## Julia: http://julialang.org
 ---
-class: center, middle, inverse
-count: false
-## Rust: 
+.left-column[
+## Julia
+
+### Overview
+]
+.right-column[
+<img src="assets/img/julia.png" width=15% style="float: left;"></img> is &ldquo;a high-level, high-performance dynamic programming language for numerical computing.&rdquo;
+
+Like Chapel, aims to be productive, performant, parallel.  Targets itself as a matlab-killer.
+
+Most notable features:
+- Dynamic language: JIT, rich types, multiple dispatch
+    - Give a &ldquo;scripting language&rdquo; feel while giving performance closer to C or Fortran
+
+- Lisp-like metaprogramming: Code is Data
+    - With JIT, makes it possible to re-write Julia code on the fly
+    - Makes it possible to write mini-DSLs for particular problem types: [differential equations](https://github.com/JuliaDiffEq/DifferentialEquations.jl), [optimization](https://github.com/JuliaOpt/JuMP.jl)
+
+- Full suite of parallel primitives
+]
+---
+.left-column[
+## Julia
+
+### Overview
+]
+.right-column[
+```
+using PyPlot
+
+# julia set
+function julia(z, c; maxiter=200)
+    for n = 1:maxiter
+        if abs2(z) > 4
+            return n-1
+        end
+        z = z*z + c
+    end
+    return maxiter
+end
+
+jset = [ UInt8(julia(complex(r,i), complex(-.06,.67)))
+             for i=1:-.002:-1, r=-1.5:.002:1.5 ];
+get_cmap("RdGy")
+imshow(jset, cmap="RdGy", extent=[-1.5,1.5,-1,1]
+```
+<img src="assets/img/juliaset_in_julia.png" width=65%></img>
+]
+---
+.left-column[
+## Julia
+
+### Overview
+
+### Single-Core Performance
+]
+.right-column[
+
+Single-core performance is very good, particularly for a JIT.
+
+Test below is for a simple 1-d stencil calculation ( https://www.dursi.ca/post/julia-vs-chapel.html )
+
+<table>
+<th>time</th> <th>Julia</th> <th>Chapel</th> <th>Numpy + Numba</th><th>Numpy</th>
+</thead>
+<tbody style="border: 1px solid black;">
+<tr><td style="border: 1px solid black;">run</td><td style="border: 1px solid black;">0.0084</td><td style="border: 1px solid black;">0.0098 s</td><td style="border: 1px solid black;">0.017 s</td><td style="border: 1px solid black;">0.069 s</td></tr>
+<tr><td style="border: 1px solid black;">compile</td><td style="border: 1px solid black;">0.57 s</td><td style="border: 1px solid black;">4.8s</td><td style="border: 1px solid black;">0.73 s</td><td style="border: 1px solid black;"> - </td></tr>
+</tbody>
+</table>
+
+Julia edges out Chapel... but for this test, look at Python with Numpy and numba, only a factor of two behind.
+
+Single-core performance has been the main focus of Julia, to the exclusion of almost all else - multithreading is still considered experimental.
+]
+---
+.left-column[
+## Julia
+
+### Overview
+
+### Single-Core Performance
+
+### Distributed Data
+]
+.right-column[
+Julia has a DistributedArray module, but it has very large overhead; better suited for merging data once at the end of long purely local computation (processing and then stacking images, etc)
+
+Below is a test for running on 8 cores of a (single) node:
+
+ <table style="border: 1px solid black; margin: 0 auto; border-collapse:collapse;">
+ <tbody style="border: 1px solid black;">
+ <tr> <td style="border: 1px solid black;" colspan=2>Julia </td><td style="border: 1px solid black;" colspan=2>Chapel</td><td>Dask</td> </tr>
+ <tr><td style="border: 1px solid black;"> -p=1</td><td style="border: 1px solid black;">-p=8</td><td style="border: 1px solid black;">-nl=1 tasks=8</td><td style="border: 1px solid black;">-nl=8 tasks=1</td><td style="border: 1px solid black;">workers=8</td></tr>
+ <td style="border: 1px solid black;">177s s</td>
+ <td style="border: 1px solid black;">264 s</td>
+ <td style="border: 1px solid black;">**0.4 s**</td>
+ <td style="border: 1px solid black;">145 s</td>
+ <td style="border: 1px solid black;">193 s</td></tr>
+ </tbody>
+ </table>
+
+.center[**Lesson 14: Hierarchical approach to parallelism matters**.]
+
+Need to be able to easily exploit threading, NUMA locality, cross-node communications...
+
+Julia has good libraries for data analysis, modest support for graph algorithms, but all single-node; very little support for distributed memory computing.
+]
+---
+.left-column[
+## Julia
+
+### Overview
+
+### Single-Core Performance
+
+### Distributed Data
+
+### Pros/Cons
+]
+.right-column[
+**Cons**
+* Very little performant support for distributed memory computing, not clear it is forthcoming
+
+**Pros**
+
+* Single core fast, and on-node fairly fast
+* Very nice interactive use, works with Jupyter or REPL
+* Some excellent libraries
+* Very powerful platform for writing DSLs
+]
 ---
 class: center, middle, inverse
 count: false
-## Spark: 
+## Chapel
 ---
-## Things are currently harder than they have to be
+.left-column[
+## Chapel
+]
+.right-column[
+So what does this mean for Chapel?  Where does it sit in this landscape?
+]
+---
+.left-column[
+## Chapel
 
-_Computational_ scientists have learned a lot about _computer_ science in the last 20+ years.
-* Encapsulation
-* Higher level programming languages (_e.g._, python-as-glue)
-* Code collaboration, sharing (github, etc)
-* Division of labour - more distinction between people who work on libraries and people who build software that implements a scientific model
+### Import
+]
+.right-column[
+Chapel is _important_.  
 
+]
+---
+.left-column[
+## Chapel
+
+### Import
+
+### Mature
+]
+.right-column[
+Chapel is _important_.  
+
+]
+---
+.left-column[
+## Chapel
+
+### Import
+
+### Mature
+
+### Just Getting Started
+]
+.right-column[
+Chapel is _important_.  
+
+]
 ---
 
     </textarea>
