@@ -536,13 +536,6 @@ Will argue that they are not so different, and there's a lot to learn (on both s
 * Big data problems have long been in-memory, increasingly compute intensive
 
 * Moving towards each other in fits and starts
-
-I tend to place Chapel as a redoubt on the outskirts of traditional HPC terrain, trying to lead the community towards where the action is:
-  - Productive tooling
-
-  - Modern language affordances
-
-  - Making it easier to tackle scale, more complex problems
 ---
 .left-column[
 ## Big Data Problems
@@ -557,12 +550,6 @@ Big Data problems same as HPC, if in different context
     - Tree methods
 - Time series
     - FFTs, smoothing, ...
-
-Main difference: hit highly irregular, unstructured, dyanamic problems
-earlier in data analysis than simulation (but Exascale...)
-
-- Irregular data lookups:
-    - Key-Value Stores
 ]
 ???
 Ultimately Big Data problems are more or less the same problems we
@@ -576,55 +563,6 @@ but may not be able to on the road to Exascale.
 ---
 .left-column[
 ## Big Data Problems
-
-### Key-value stores
-]
-.right-column[
-
-In simulation, you normally have the luxury of knowing exactly where
-needed data is, because you put it there.
-
-Maintained with global state, distributed state, or implicitly
-(structured mesh).
-
-.center[<img src="assets/img/gc-filling.png" width=75%></img>]
-]
----
-.left-column[
-## Big Data Problems
-
-### Key-value stores
-]
-.right-column[
-With faults, or rapid dynamism, or too-large scale to keep all state
-nearby, less true.
-
-Data analysis: much of genomics involves lookups in indices too large
-for one node's memory
-
-- Good/simple/robust distributed hash tables within an application
-would be extremely valuable.
-
-Begins to look a lot like distributed key-value stores in big data.
-
-Highly irregular access (don't know where you're sending to, receiving
-from, when requests are coming, or how many messages you will receive/send) has
-not been the strong suit of MPI-based HPC stacks.
-
-.center[<img src="assets/img/dht.png" width=95% style="margin-top:-1em"></img>]
-]
-???
-The users and developers of in-memory NoSQL databases view performance
-as crucial, and so teams are enormously concerned with latency -
-especially since a query (and especially an update) may involve
-several messages between participating nodes.  The discussions
-surrounding latency, bandwidth, cache utilisation, threading, etc would 
-all be extremely familiar to those who work on HPC software.
----
-.left-column[
-## Big Data Problems
-
-### Key-value stores
 
 ### Linear algebra
 ]
@@ -652,8 +590,6 @@ cardinality can be enormous, no real pattern to sparsity
 ---
 .left-column[
 ## Big Data Problems
-
-### Key-value stores
 
 ### Linear algebra
 
@@ -684,8 +620,6 @@ as I do on twitter
 .left-column[
 ## Big Data Problems
 
-### Key-value stores
-
 ### Linear algebra
 
 ### Graph problems
@@ -702,8 +636,6 @@ https://flink.apache.org/news/2015/08/24/introducing-flink-gelly.html
 ---
 .left-column[
 ## Big Data Problems
-
-### Key-value stores
 
 ### Linear algebra
 
@@ -726,8 +658,6 @@ https://spark.apache.org/docs/1.2.1/graphx-programming-guide.html
 .left-column[
 ## Big Data Problems
 
-### Key-value stores
-
 ### Linear algebra
 
 ### Graph problems
@@ -743,6 +673,24 @@ The problems big-data practitioners face are either:
     - Less regular/structured
     - More dynamic
 ]
+---
+## The Present Day, 2017
+<img src="assets/img/ScientificComputing2017.png" width=33% style="float: right;"></img>
+
+Will argue that they are not so different, and there's a lot to learn (on both sides) across the data science/simulation science divide
+
+* Simulations are getting more complex, dynamic
+
+* Big data problems have long been in-memory, increasingly compute intensive
+
+* Moving towards each other in fits and starts
+
+I tend to place Chapel as a redoubt on the outskirts of traditional HPC terrain, trying to lead the community towards where the action is:
+  - Productive tooling
+
+  - Modern language affordances
+
+  - Making it easier to tackle scale, more complex problems
 ---
 layout: false
 class: center, middle, inverse
@@ -942,6 +890,8 @@ Also has several excellent packages that make use of parallelism:
 * BiocParallel (for Bioconductor packages)
 
 But these represent a _lot_ of work by people; hard to get from one side to the other.
+
+SparkR allows you to run R code through Spark, but impedence mismatch between paradigms.
 
 .center[<img src="assets/img/chasm_of_despair.png" width=70%></img>]
 ]
@@ -2008,7 +1958,14 @@ Julia has good libraries for data analysis, modest support for graph algorithms,
 ---
 class: center, middle, inverse
 count: false
-## Chapel
+## My Benchmark Problems
+---
+.left-column[
+## My Benchmark Problems
+]
+.right-column[
+So where does this leave my
+]
 ---
 .left-column[
 ## Chapel
