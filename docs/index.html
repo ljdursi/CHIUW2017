@@ -557,7 +557,7 @@ face in HPC although in a different context.
 
 The Big Data crowd hit problems of dealing with wildly irregular,
 unstructured, dynamic data structures first - irregularity to a
-degree that we've up til now been able to avoid in simulation...
+degree that we've up until now been able to avoid in simulation...
 but may not be able to on the road to Exascale.
 
 ---
@@ -1964,8 +1964,119 @@ count: false
 ## My Benchmark Problems
 ]
 .right-column[
-So where does this leave my
+So where does this leave my &ldquo;curated&rdquo; (read: wildly biased) set of benchmark problems?
+
+In a dystopic world without efforts like Chapel, what would I be using?
 ]
+---
+.left-column[
+## My Benchmark Problems
+
+### PDEs
+]
+.right-column[
+Heavy reliance on execution-graph optimizers has a lot of promise for highly dynamic simulations.
+
+But where we are now, big Data frameworks aren't going to come save me from the current state of the art in large-scale PDE frameworks:
+* [Trilinos](https://trilinos.org/capability-areas/meshes-geometry-and-load-balancing/)
+* [BoxLib](https://ccse.lbl.gov/BoxLib/)
+* ...
+
+Amazing efforts, great tools, and the world is much better with
+them that it would be without them.
+
+But huge code bases, very challenging to start with as a user, very
+difficult to make significant changes.
+
+Based on MPI, which you may have heard I have opinions about.
+]
+---
+.left-column[
+## My Benchmark Problems
+
+### PDEs
+
+### Genomics
+]
+.right-column[
+Large genomics today means buying or renting very large (up to 1TB) RAM machines.
+
+I'm starting to think that this reflects a failure of our parallel programming community.
+
+Good news: there's lots of great work algorithmic being done in the genomics community
+- Succinct data structures
+- Approximate streaming methods
+
+But this is work done because of scarsity, and the size of projects being tackled is being limited.
+]
+---
+.left-column[
+## My Benchmark Problems
+
+### PDEs
+
+### Genomics
+]
+.right-column[
+There are projects like [HipMer](http://portal.nersc.gov/project/hipmer/)
+(large-scale assembler, UPC++), but not a general solution.
+
+GraphX for Spark could be useful, but only becomes performant on 
+huge problems
+- &ldquo;Missing Middle&rdquo; for where most of the work is, and for adoption
+]
+---
+.left-column[
+## My Benchmark Problems
+
+### PDEs
+
+### Genomics
+
+### Biostatistics
+]
+.right-column[
+Biostatistics is in exactly the same boat.
+
+R works really, really well for ~desktop-scale problems.
+
+Spark (or a number of other things) work if the data size starts
+large enough.
+- Big international genomics projects 
+
+Death valley in between.
+]
+---
+.left-column[
+## My Benchmark Problems
+
+### PDEs
+
+### Genomics
+
+### Biostatistics
+]
+.right-column[
+<img src="assets/img/hail-vds-rep.png" width=50% style="float:right;"></img>
+
+Here's where we are now - the Broad institute in Boston put together the
+[Hail project](https://www.hail.is/hail/overview.html#variant-dataset-vds):
+* Based on Spark 
+
+* "does person X have genetic variant Y" matrix of records
+
+* Interactively query reductions of rows and columns 
+
+* A big problem is several billion entries.  Future proof, but...
+
+* This is not a hard problem!
+
+* Very unwieldly for individual researchers on smaller sets.
+]
+---
+class: center, middle, inverse
+count: false
+## Chapel
 ---
 .left-column[
 ## Chapel
@@ -1973,49 +2084,218 @@ So where does this leave my
 .right-column[
 So what does this mean for Chapel?  Where does it sit in this landscape?
 ]
+--
+.right-column-cont[
+Here's my opinion, after casting about for langauges and frameworks for these sorts of problems:
+
+* Chapel is _important_.
+* Chapel is _mature_.
+* Chapel is _just getting started_.
+]
 ---
 .left-column[
-## Chapel
+## Chapel is...
 
-### Import
+### Important
 ]
 .right-column[
-Chapel is _important_.  
-
+If the science community is going to have scientific frameworks designed _for_ _our_ _problems_, and not
+bolted on to LinkGoogBook's next big data framework, it's going to come from a project like Chapel.
+]
+--
+.right-column-cont[
+Using MPI as a framework just isn't sustainable for increasingly complex problems.
+]
+--
+.right-column-cont[
+Big data frameworks don't have any incentive to support scale-down, or tightly-coupled computing.
+]
+--
+.right-column-cont[
+Scientists need both.
 ]
 ---
 .left-column[
-## Chapel
+## Chapel is...
 
-### Import
+### Important
 
 ### Mature
 ]
 .right-column[
-Chapel is _important_.  
+<img src="assets/img/chapel-proj-math.png" width=66%></img>
+]
+--
+.right-column-cont[
+There are other research projects in this area - productive, performant, parallel computing languages for distributed-memory scientific computing.
 
+But Chapel, especially now with 1.15, is a mature product.
+]
+--
+.right-column-cont[
+It is crossing the barrier of &ldquo;Fast Enough&rdquo; for the problems that map naturally to it.
+
+It has the pieces to start expanding that set of problems.
 ]
 ---
 .left-column[
 ## Chapel
 
-### Import
+### Important
 
 ### Mature
 
 ### Just Getting Started
 ]
 .right-column[
-Chapel is _important_.  
-
+Has a very solid base.
+- Native compilation, non-crazy runtime: scales down well.
+- Good single core performance.
+- Strong distributed-memory performance for rectangular dense or sparse arrays.
+- Excellent set of parallel primitives.
+- Useful tools.
 ]
 ---
+.left-column[
+## Chapel
+
+### Important
+
+### Mature
+
+### Just Getting Started
+]
+.right-column[
+I claim that there's enough of a foundation to start building an ecosystem around.
+- _e.g._, in or close to the Spark regime, not the R regime
+
+But may still have to help users across their own &ldquo;Crevace
+of Discouragement&rdquo;
+- Make it so easy for a scientist to start using Chapel for their
+problems it's too hard to resist.
+
+Existing HPC stack helps with this!
+- Many excellent existing tools
+- That are incredibly difficult to start using
+
+User community can contribute significantly to this.
+]
+---
+.left-column[
+## Chapel
+
+### Important
+
+### Mature
+
+### Just Getting Started
+
+### Large Linear Solves?
+]
+.right-column[
+[PETSc](http://www.mcs.anl.gov/petsc/) is a widely used library for large sparse iterative solves.
+- Excellent and comprehensive library of solvers
+- It is the basis of a significant number of home-made simulation codes
+- It is notoriously hard to start getting running with; nontrivial even for experts to install.
+
+Significant fraction of PETSc functionality is tied up in large CSR matrices of reasonable structure
+partitioned by row, vectors, and solvers built on top.
+
+What would a Chapel API to PETSc look like?
+
+What would a Chapel implementation of some core PETSc solvers look like?
+
+How about [Scalapack](http://www.netlib.org/scalapack/)?
+]
+---
+.left-column[
+## Chapel
+
+### Important
+
+### Mature
+
+### Just Getting Started
+
+### Large Linear Solves?
+
+### Genomics?
+]
+.right-column[
+Graph and string problems in genomics is:
+- Huge: vastly larger than Astrophysics, which is where I come from
+- Badly underserved
+- Competition is threaded or even serial code on a single big memory machine
+    - _e.g._, lots of very nice code using Python dicts
+    - And no numba or numpy equivalent to speed up these sorts of operations
+
+Chapel already has associative, unstructured domains - what do some simple
+genomics tasks look like in Chapel?
+]
+---
+.left-column[
+## Chapel
+
+### Important
+
+### Mature
+
+### Just Getting Started
+
+### Large Linear Solves?
+
+### Genomics?
+
+### Data Science?
+]
+.right-column[
+Still this missing middle problem:
+- Nothing (yet) can span the range of both R and Spark
+- Python is making inroads
+- Parts of the pieces are there:
+    - partitioned arrays of records
+- But would need other things
+    - shuffles, very dynamic resizing
+    - adoption may depend too strongly on libraries; R interop?
+]
+---
+.left-column[
+## Chapel
+
+### Important
+
+### Mature
+
+### Just Getting Started
+
+### Large Linear Solves?
+
+### Genomics?
+
+### Data Science?
+
+### Glorious Age Of Expansion
+]
+.right-column[
+<img src="assets/img/ScientificComputing2017.png" width=50% style="float: right;"></img>
+
+Chapel has established a stronghold on the outskirts of modestly hostile territory.
+
+But there are scientists in neighboring territories who need help.
+
+In almost any direction, there are communities that would love what Chapel offers;
+- Productivity
+- Performance
+- Desktop-to-Cluster scalability.
+
+Future's wide open!
+]
 
     </textarea>
     <script src="remark/remark-latest.min.js">
     </script>
-    <script>
-      var slideshow = remark.create();
-    </script>
+     <script>
+       var slideshow = remark.create();
+     </script>
   </body>
 </html>
