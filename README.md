@@ -5,7 +5,7 @@
 
 This is the presentation and associated materials for my talk 
 at [The 4th Chapel Implementers and Users Workshop](http://chapel.cray.com/CHIUW2017.html).
-The slides can be viewed directly at http://ljdursi.github.io/CHIUW2017.html .
+The slides can be viewed directly at https://ljdursi.github.io/CHIUW2017/ .
 
 ## Abstract
 
