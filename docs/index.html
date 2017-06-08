@@ -181,21 +181,6 @@ layout: false
 
 - Worked with researchers on wide variety of problems
 ]
-
-???
-Before we start, let me tell you a little about where I'm coming
-from.  This story is probably pretty familiar to many of you - I
-started off doing science with computing, and ended up drifting to
-the other side of that divide, doing computing to support science.
-
-I was doing pretty pretty standard HPC stuff - high speed reactive
-flows (explicit methods), adaptive grid, FORTRAN with some C and
-python, that sort of thing.
-
-After doing a postdoc in Toronto, I moved into the HPC Centre
-there, working with them and Compute Canada - a little like 
-PRACE or XSEDE - and working with a lot of different researchers
-doing a lot of different problems.  
 ---
 .left-column[
   ## Who Am I?
@@ -304,29 +289,10 @@ Made move in 2014
     - First open-source human-scale de novo genome assembler
     - MPI-based 
 ]
-???
-Before too long, I started
-becoming interested in genomics - partly because it was the new
-frontier, with fascinating and deep algorithmic challenges, but
-also required very large-scale computing to accomplish its promise.
-
-I began working in genomics with Jared Simpson, who amongst other
-accomplishments was the author of ABySS, one of the very early
-large-scale de novo genome assemblers from what we now call short
-reads.  It tackled large --- including human --- genomes by using
-distributed memory, using MPI.  So it sounds like I found a pretty
-good niche in Genomics for an HPCer, right?
 --
 .right-column-cont[
 - ABySS 2.0 just came out, with a new non-MPI mode
 ]
-???
-Not quite.
-
-ABySS 2.0 just came out, with a new non-MPI mode which will almost
-certainly become the default after the kinks are worked out.  There
-are absolutely no plans by any of the development team to develop
-new MPI-based algorithms or tools
 ---
 name: my-background-2
 layout: false
@@ -346,10 +312,6 @@ using Apache Spark.
 
 .center[<img src="assets/img/gatk-spark-news.png" width=75%></img>]
 ]
-???
-In the meantime, one of the de-facto standards for genome analysis, GATK, 
-has just announced that version 4 will support distributed cluster computing &mdash; 
-using Apache Spark.
 ---
 layout: false
 .left-column[
@@ -373,19 +335,6 @@ layout: false
 
 - Where Chapel is, and what nearby territories look fertile
 ]
-???
-It's very difficult to describe what place Chapel does and can occupy in the
-landscape without drawing a map, so what I want to do for the beginning
-of our time together is to walk through these new territories with you.
-
-I want to talk about some common big data analysis tasks and point
-out how similar they are to familiar simulation tasks.  Then I'd
-like to show some of the programming models that are springing up 
-are tackling these problems.
-
-Once we've sketched out the map, I want to describe the place I see
-Chapel as occupying now &mdash; and the attractive neighbouring vacant
-territories that it can occupy if it wants.
 ---
 .left-column[
   ## Outline
@@ -551,15 +500,6 @@ Big Data problems same as HPC, if in different context
 - Time series
     - FFTs, smoothing, ...
 ]
-???
-Ultimately Big Data problems are more or less the same problems we
-face in HPC although in a different context.
-
-The Big Data crowd hit problems of dealing with wildly irregular,
-unstructured, dynamic data structures first - irregularity to a
-degree that we've up until now been able to avoid in simulation...
-but may not be able to on the road to Exascale.
-
 ---
 .left-column[
 ## Big Data Problems
@@ -575,18 +515,6 @@ say doing similarity calculations of documents, using a bag-of-words model.
 If looking at ngrams, cardinality can be enormous, no real pattern to sparsity
 .center[<img src="assets/img/bag-of-words.png" width="75%"></img>]
 ]
-???
-Almost any sort of numeric computation requires linear algebra.
-That's just mathematics, and is inescapable.
-
-In many big-data applications, the linear algebra is _extremely_
-sparse and unstructured; say doing similarity calculations of
-documents, using a bag-of-words model, where order is ignored
-and documents are described as simply occurrance counts words ---
-very sparse integer vectors.
-
-Words are one thing, but If looking at ngrams, 
-cardinality can be enormous, no real pattern to sparsity
 ---
 .left-column[
 ## Big Data Problems
@@ -603,19 +531,6 @@ Very sparse, very irregular: nodes can have enormously varying degrees, _e.g._ s
 .center[<img src="assets/img/social-graph.png" width=75%></img>]
 https://en.wikipedia.org/wiki/Social_graph
 ]
-???
-As with other problems - big data graphs are like HPC graphs, but more so.
-
-For graphs in physical science simulation - say unstructured grids -
-or analysis, nodes typically have say within a factor of two or order of
-magnitude the same number of neighbours.
-
-Not so with (say) social media graphs:
-Very sparse, very irregular: nodes can have enormously varying degrees
-
-Inexplicably, Justin Bieber has far more twice as many followers
-as I do on twitter
-
 ---
 .left-column[
 ## Big Data Problems
@@ -1171,13 +1086,6 @@ def step(g:Graph[nodetype, edgetype]) : Graph[nodetype, edgetype] = {
 
 .center[<img src="assets/img/graphx-init.png" width=33%></img> <img src="assets/img/graphx-final.png" width=33%></img>]
 ]
-???
-This makes implementing unstructured mesh methods extremely straightforward, and there's 
-a little example with the talk that implements one in 50 lines of code or so.  
-
-The argument, to be clear, isn't that this is researchers should be doing unstructured
-mesh codes; the argument is that the problems these tools are solving for their users
-aren't some completely alien and irrelevant forms of analyses.
 ---
 .left-column[
 ## Spark
@@ -1332,20 +1240,6 @@ approach is doomed to failure?
 * Performance improvements version to version
 * Easy to find people willing to learn
 ]
-???
-Looking over Spark, it's easy to see some Pros and Cons (from the point of view of _our_ use cases; 
-Spark has been designed and optimized for its community, and Big Data users would have a different list of Pros/Cons)
-
-A big one from our point of view is that the relatively heavyweight infrastructure around individual Spark processes
-means that it scales *down* fairly poorly.
-
-But the point here isn't that I'm proposing that our simulation
-codes should be rewritten in Spark - that would be silly.  
-
-The point is that other communities are building high-productivity tools for
-doing number-crunching for a user community that cares a great deal
-about performance and scale - not least of which because they pay real money
-for cycles - and they're not building it on top of MPI.
 ---
 class: center, middle, inverse
 count: false
@@ -1772,15 +1666,6 @@ array calculations
 * Can make use of infrastructure for synchronous, asynchronous updates between data-parallel tasks
 * Great for data processing, image processing, or computations on n-d arrays
 ]
-???
-This one is a little closer to our wheelhouse.  Computationally-intensive
-operations on n-dimensional arrays of floating point values,
-communicating the results of those computaions, CPU and GPU, C++.
-
-Very nice high-productivity layer above the hard-core numerics.
-
-Performance is very important for these computations - but again, the underlying
-data transport is very definitely not MPI.
 ---
 .left-column[
 ## Common Themes
